@@ -1,0 +1,17 @@
+name: Trust
+# Zode task 37 trust proofs (zoded docs/ci-contract.md "Warm repository
+# snapshots"): what a runner inherits from the warm snapshot, per event.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  trust:
+    runs-on: zode-2x4
+    steps:
+      - uses: actions/checkout@v5
+      - name: Inspect what this runner inherited
+        run: bash trust.sh inspect
+      - name: Write this run's marks
+        run: bash trust.sh mark
