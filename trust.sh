@@ -24,7 +24,7 @@ inspect() {
     /home /root /opt/zode-runner* /tmp /var/lib/zode-ci /mnt/zode-warm 2>/dev/null | grep -v "/trust.sh$" | sort -u)
   n=$(printf '%s' "$leaks" | grep -c . || true)
   echo "planted_tokens_found=$n"
-  printf '%s\n' "$leaks" | sed -n 's/^/LEAK /p'
+  [ -z "$leaks" ] || printf '%s\n' "$leaks" | sed 's/^/LEAK /'
   if [ "$kind" = fork ] && grep -qs "default" <(for h in $homes; do asroot cat "$h/.cache/zode-trust/marker" 2>/dev/null; done); then
     echo "FAIL: a fork pull request read a file a default-branch job wrote"; exit 1
   fi
